@@ -1,24 +1,24 @@
 import vigenereCipher
-import simpleSubCipher
+import caesarCipher
 import reverseCipher
 
 myMessage = raw_input('Enter Message   : ') 
 myKey = raw_input('Enter Key   :  ') 
-myMode = raw_input('Encrypt or Decrypt   :   ') 
+myMode = raw_input('E or D   :   ') 
 
-if myMode == 'Encrypt':
-	for i in range(32):
-		translated = vingereCipher.encryptMessage(myKey, myMessage)
-		translated1 = simpleSubCipher.main(myKey, myMessage)
-		translated2 = reverseCipher.main(len(myKey), myMessage)
-	print 'Here it is..encrypted' % translated1
+if myMode == 'E':
+	for i in range(64):
+		translated = vigenereCipher.encryptMessage(myKey, myMessage)
+		translated1 = caesarCipher.encryptMessage(len(myKey), translated)
+		myMessage = reverseCipher.reverse(translated1)
+	print myMessage
 
-elif myMode == 'Decrypt':
-	for i in range(32):
-		translated = reverseCipher.main(len(myKey), myMessage)
-		translated1 = simpleSubCipher.main(myKey, myMessage)
-		translated2 = vingereCipher.encryptMessage(myKey, myMessage)	
-	print 'Here it is..decrypted' % translated1
+elif myMode == 'D':
+	for i in range(64):		
+		translated = reverseCipher.reverse(myMessage)
+		translated1 = caesarCipher.decryptMessage(len(myKey), translated)
+		myMessage = vigenereCipher.decryptMessage(myKey, translated1)	
+	print myMessage
 
 def main(m, k, om):
 	myKey = k
