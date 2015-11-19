@@ -1,28 +1,35 @@
+
+
 import vigenereCipher
 import caesarCipher
 import reverseCipher
 
-myMessage = raw_input('Enter Message   : ') 
-myKey = raw_input('Enter First Key   :  ')
-myKey1 = raw_input('Enter Second Key   :  ')  
-myMode = raw_input('E or D  :   ') 
 
-if myMode.lower() == 'e':
-	for i in range(32):
-		translated = vigenereCipher.encryptMessage(myKey, myMessage)
-		translated1 = caesarCipher.encryptMessage(len(myKey1), translated)
-		myMessage = reverseCipher.reverse(translated1)
+def encrypt(myKey, myMessage):
+	translated = vigenereCipher.encryptMessage(myKey, myMessage)
+	translated1 = caesarCipher.encryptMessage(len(myKey), translated)
+	myMessage = reverseCipher.reverse(translated1)
+	return myMessage
+
+def decrypt(myKey, myMessage):
+	translated = reverseCipher.reverse(myMessage)
+	translated1 = caesarCipher.decryptMessage(len(myKey), translated)
+	myMessage = vigenereCipher.decryptMessage(myKey, translated1)	
+	return myMessage
+
+def main():
+	myMessage = raw_input('Enter Message   : ') 
+	myKey = raw_input('Enter First Key   :  ')
+	myMode = raw_input('e or d  :   ') 
+
+	if myMode == 'e':
+		for i in range(32):
+			myMessage = encrypt(myKey, myMessage)
+	elif myMode == 'd':
+		for i in range(32):
+	 		myMessage = decrypt(myKey, myMessage)
 	print myMessage
 
-elif myMode.lower() == 'd':
-	for i in range(32):		
-		translated = reverseCipher.reverse(myMessage)
-		translated1 = caesarCipher.decryptMessage(len(myKey1), translated)
-		myMessage = vigenereCipher.decryptMessage(myKey, translated1)	
-	print myMessage
 
-def main(m, k, om, k1):
-	myKey = k
-	myKey1 = k1
-	myMode = om
-	myMessage = m
+if __name__ == '__main__':
+	main()
